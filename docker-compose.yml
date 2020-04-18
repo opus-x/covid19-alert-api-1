@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    # command: gradlew bootRun
+    volumes:
+      - .:/home/gradle/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - psql-11
+    environment:
+      spring.datasource.url: jdbc:postgresql://psql-11:5432/aaa2
+
+  psql-11:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: aaa2
+      POSTGRES_PASSWORD: 123456
+    ports:
+    - 5432:5432
